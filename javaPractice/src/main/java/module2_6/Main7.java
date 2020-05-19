@@ -132,13 +132,13 @@ public class Main7 {
         System.out.println("Task10");
 
         System.out.println("Enter N: ");
-        int N = new Scanner(System.in).nextInt();
+        int n = new Scanner(System.in).nextInt();
         System.out.println("Enter string: ");
         String str = new Scanner(System.in).nextLine();
 
-        while (N >= 1) {
+        while (n >= 1) {
             System.out.println(str);
-            N--;
+            n--;
         }
 
     }
@@ -159,18 +159,17 @@ public class Main7 {
     }
 
     public static void task12() {
-        int[] row = new int[] {1, 2, 3, 4, 5, 6, 6, 8, 9, 10};
-        int[] column = new int[] {1, 2, 3, 4, 5, 6, 6, 8, 9, 10};
-        int i = 0;
-        int j = 0;
+        int i = 1;
+        int j = 1;
 
-        while (i < 10) {
-            while (j < 10) {
-                System.out.print(row[i] * column[j] + "\t");
+        while (i <= 10) {
+            while (j <= 10) {
+                System.out.print(i * j + "\t");
                 j++;
             }
             System.out.println();
-            j = 0;
+
+            j = 1;
             i++;
         }
     }
