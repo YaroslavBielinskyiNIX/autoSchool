@@ -2,8 +2,9 @@ package module2_3;
 
 import java.util.Scanner;
 
-public class Main3 {
+import static java.lang.String.format;
 
+public class Main3 {
 
     public static void main(String[] args) {
         divisionRemainder();
@@ -15,24 +16,22 @@ public class Main3 {
     public static void divisionRemainder() {
         System.out.println("Task1");
 
-        int q;
-        int w;
-
         System.out.print("Enter q: ");
-        q = new Scanner(System.in).nextInt();
+        int q = new Scanner(System.in).nextInt();
         System.out.print("Enter w: ");
-        w = new Scanner(System.in).nextInt();
+        int w = new Scanner(System.in).nextInt();
 
-        System.out.println("q / w = " + q / w + ", remainder = " + q % w);
+        System.out.println(format("q / w = %d, remainder = %d", q / w, q % w));
     }
 
     public static void digitSum() {
         System.out.println("Task2");
 
-        System.out.println("Enter double digit num: ");
+        System.out.print("Enter double digit num: ");
         int n = new Scanner(System.in).nextInt();
 
-        System.out.println("Sum = " + (n % 10 + (n - (n % 10)) / 10));
+        System.out.println("Sum = " + (n % 10 + n / 10));
+
     }
 
     public static void round() {
@@ -40,7 +39,8 @@ public class Main3 {
 
         System.out.println("Enter n: ");
         double n = new Scanner(System.in).nextDouble();
-        System.out.println("Result = " + Math.round(n));
+        System.out.println("Result = " + (int)(n + 0.5));
+
     }
 
     public static void quickMath() {
@@ -57,6 +57,6 @@ public class Main3 {
         b = c - a + b;
         c = a + c;
 
-        System.out.println("a = " + a + ", b = " + b + ", c = " + c);
+        System.out.println(format("a = %d, b = %d, c = %d", a, b, c));
     }
 }

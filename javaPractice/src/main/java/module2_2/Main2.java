@@ -16,5 +16,4 @@ public class Main2 {
         System.out.println("Hello, World!");
         hello.byeBay();
     }
-
 }
