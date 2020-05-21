@@ -41,7 +41,7 @@ public class Main11 {
     public static void task1() {
         System.out.println("Task1");
 
-        HashSet<String> fruits = new HashSet();
+        HashSet<String> fruits = new HashSet<>();
 
         fruits.add("арбуз");
         fruits.add("банан");
