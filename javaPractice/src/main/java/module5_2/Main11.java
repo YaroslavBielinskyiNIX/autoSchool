@@ -260,11 +260,20 @@ public class Main11 {
         fio.put("Ivan", "Kobzev");
         fio.put("David", "Simonov");
 
-        Set<String> tmp = new HashSet<>();
-        fio = fio.entrySet()
-                .stream()
-                .filter(entry -> tmp.add(entry.getValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        HashMap<String, String> tmpMap1 = new HashMap<>(fio);
+        HashMap<String, String> tmpMap2 = new HashMap<>(fio);
+
+        for (Map.Entry<String, String> keyValueTmpMap1:tmpMap1.entrySet())
+        {
+            tmpMap2.remove(keyValueTmpMap1.getKey());
+            if (tmpMap2.containsValue(keyValueTmpMap1.getValue()))
+            {
+                HashMap<String, String> copyFio = new HashMap<>(fio);
+
+                for (Map.Entry<String, String> keyValueCopyFio:copyFio.entrySet())
+                    if (keyValueCopyFio.getValue().equals(keyValueTmpMap1.getValue())) fio.remove(keyValueCopyFio.getKey());
+            }
+        }
 
         fio.forEach((key, value) -> System.out.println(key + " - " + value));
     }
