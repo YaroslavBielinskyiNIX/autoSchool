@@ -1,20 +1,22 @@
 package matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import java.util.List;
 
+import static java.util.Collections.reverseOrder;
+
 public class InDescendingOrdering extends TypeSafeMatcher<List<Double>> {
 
-    public InDescendingOrdering() {
+    final private List<Double> list;
 
+    public InDescendingOrdering(final List<Double> list) {
+        this.list = list;
     }
 
     @Override
     protected boolean matchesSafely(List<Double> list) {
-        System.out.println(list);
         {
             for(int i = 0 ; i < list.size() - 1; i++) {
                 if(list.get(i) <= list.get(i + 1))
@@ -27,11 +29,13 @@ public class InDescendingOrdering extends TypeSafeMatcher<List<Double>> {
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("List not sorted");
+        list.sort(reverseOrder());
+
+        description.appendText(String.valueOf(list));
     }
 
-    public static Matcher<List<Double>> isSortedDescending() {
-        return new InDescendingOrdering();
+    public static InDescendingOrdering isSortedDescending(List<Double> list) {
+        return new InDescendingOrdering(list);
     }
 
 }

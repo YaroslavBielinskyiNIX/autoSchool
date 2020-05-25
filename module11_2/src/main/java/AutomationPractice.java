@@ -5,9 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static java.lang.Double.parseDouble;
 import static matchers.InDescendingOrdering.isSortedDescending;
@@ -29,7 +29,7 @@ public class AutomationPractice {
     public void init() {
         WebDriverManager.chromedriver().setup();
         webDriver = new ChromeDriver();
-        webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @Test(dataProvider = "dataProvider")
@@ -45,29 +45,18 @@ public class AutomationPractice {
 
         List<WebElement> items = webDriver.findElements(xpath("//ul[contains(@class,'row')]/li/div"));
         String nameItem = items.get(0).findElement(xpath("//div[contains(@class,'right-block')]//a[contains(@class,'product-name')]")).getText();
+        String firstItemPrice = items.get(0).findElement(xpath("//div[@class='right-block']//span[@class='price product-price']")).getText();
 
-        List<Double> itemPrice = new ArrayList<Double>();
-        for (int i = 0; i < items.size(); i++) {
-            try {
-                itemPrice.add(i, parseDouble(webDriver.findElement(xpath("//ul[contains(@class,'row')]/li[" + (i + 1) + "]/div//span[contains(@class,'old-price product-price')]")).getAttribute("innerHTML").trim().replaceAll("[^0-9.]", "")));
-            } catch (Exception e) {
-                itemPrice.add(i, parseDouble(webDriver.findElement(xpath("//ul[contains(@class,'row')]/li[" + (i + 1) + "]/div//span[contains(@class,'price product-price')]")).getAttribute("innerHTML").trim().replaceAll("[^0-9.]", "")));
-            }
-        }
+        List<WebElement> itemPriceWebElement = webDriver.findElements(xpath("//div[@class='right-block']//div[count(span)=1]/span[contains(@class,'price')] | //div[@class='right-block']//div[count(span)>1]/span[contains(@class,'old-price')]"));
+        List<Double> itemPriceDouble = itemPriceWebElement.stream().map(price -> parseDouble(price.getAttribute("innerHTML").trim().replaceAll("[^0-9.]", ""))).collect(Collectors.toList());
 
-        assertThat(itemPrice, isSortedDescending());
+        assertThat(itemPriceDouble, isSortedDescending(itemPriceDouble));
 
         items.get(0).findElement(xpath("//a[@title='Add to cart']")).click();
         webDriver.findElements(xpath("//span[contains(text(),'Proceed to checkout')]")).get(0).click();
+        WebElement priceItemCart = webDriver.findElement(xpath("//span[contains(@class,'old-price')] | //span[contains(@class,'price special-price')] | //span[@class='price']/span[@class='price']"));
 
-        WebElement priceItemCart;
-        try {
-            priceItemCart = webDriver.findElement(xpath("//span[contains(@class,'old-price')]"));
-        } catch (Exception e) {
-            priceItemCart = webDriver.findElement(xpath("//span/span[contains(@class,'price')]"));
-        }
-
-        assertThat(priceItemCart, hasText(itemPrice.get(0).toString()));
+        assertThat(priceItemCart, hasText(firstItemPrice));
         assertThat(webDriver.findElement(xpath("//td/p[contains(@class,'product-name')]/a")), hasInnerHtml(nameItem));
     }
 
