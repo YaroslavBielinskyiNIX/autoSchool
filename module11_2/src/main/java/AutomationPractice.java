@@ -1,8 +1,11 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
 import java.util.List;
@@ -19,6 +22,7 @@ import static org.openqa.selenium.By.xpath;
 public class AutomationPractice {
 
     private WebDriver webDriver;
+    private WebDriverWait wait;
 
     @DataProvider
     public static Object[][] dataProvider() {
@@ -30,6 +34,7 @@ public class AutomationPractice {
         WebDriverManager.chromedriver().setup();
         webDriver = new ChromeDriver();
         webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait = new WebDriverWait(webDriver, 50);
     }
 
     @Test(dataProvider = "dataProvider")
@@ -40,6 +45,7 @@ public class AutomationPractice {
 
         assertThat(webDriver.findElement(xpath("//span[contains(@class,'lighter')]")), hasText(searchQuery));
 
+        wait.until((ExpectedCondition<Boolean>) wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
         Select dropDownMenu = new Select(webDriver.findElement(xpath("//select[@id='selectProductSort']")));
         dropDownMenu.selectByVisibleText("Price: Highest first");
 
@@ -47,6 +53,7 @@ public class AutomationPractice {
         String nameItem = items.get(0).findElement(xpath("//div[contains(@class,'right-block')]//a[contains(@class,'product-name')]")).getText();
         String firstItemPrice = items.get(0).findElement(xpath("//div[@class='right-block']//span[@class='price product-price']")).getText();
 
+        wait.until((ExpectedCondition<Boolean>) wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
         List<WebElement> itemPriceWebElement = webDriver.findElements(xpath("//div[@class='right-block']//div[count(span)=1]/span[contains(@class,'price')] | //div[@class='right-block']//div[count(span)>1]/span[contains(@class,'old-price')]"));
         List<Double> itemPriceDouble = itemPriceWebElement.stream().map(price -> parseDouble(price.getAttribute("innerHTML").trim().replaceAll("[^0-9.]", ""))).collect(Collectors.toList());
 

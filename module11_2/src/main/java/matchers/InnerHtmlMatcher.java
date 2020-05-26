@@ -18,7 +18,6 @@ public class InnerHtmlMatcher extends TypeSafeMatcher<WebElement> {
 
     @Override
     protected boolean matchesSafely(final WebElement webElement) {
-        System.out.println(webElement.getAttribute("innerHTML").toLowerCase());
         return webElement.getAttribute("innerHTML").toLowerCase().contains(this.str.toLowerCase());
     }
 
