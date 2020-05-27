@@ -2,6 +2,7 @@ package helper;
 
 import io.qameta.allure.Step;
 import io.qameta.atlas.core.Atlas;
+import io.qameta.atlas.webdriver.WebDriverConfiguration;
 import io.qameta.atlas.webdriver.WebPage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,9 +15,9 @@ public abstract class BaseHelper {
     protected Atlas atlas;
     private WebDriverWait wait;
 
-    public BaseHelper(WebDriver webDriver, Atlas atlas) {
+    public BaseHelper(WebDriver webDriver) {
         this.webDriver = webDriver;
-        this.atlas = atlas;
+        this.atlas = new Atlas(new WebDriverConfiguration(webDriver));
         this.wait = new WebDriverWait(webDriver, 10);
 
     }

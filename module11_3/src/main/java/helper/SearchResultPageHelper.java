@@ -15,8 +15,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SearchResultPageHelper extends BaseHelper {
 
-    public SearchResultPageHelper(WebDriver webDriver, Atlas atlas) {
-        super(webDriver, atlas);
+    public SearchResultPageHelper(WebDriver webDriver) {
+        super(webDriver);
     }
 
     @Step("Items count on ResultPage")
@@ -32,7 +32,7 @@ public class SearchResultPageHelper extends BaseHelper {
     public ItemPageHelper openItemPage(int index) {
         onSearchResultPage().items().get(index).moreButton();
 
-        return new ItemPageHelper(webDriver, atlas);
+        return new ItemPageHelper(webDriver);
     }
 
     @Step("Applied DescendingSort for Items on SearchResultPage")
@@ -45,9 +45,7 @@ public class SearchResultPageHelper extends BaseHelper {
 
     @Step("Should be DescendingSort for Items on SearchResultPage")
     public SearchResultPageHelper verifyDescendingSort() {
-        List<Double> itemPriceDouble = onSearchResultPage().items().stream().map(item -> parseDouble(item.itemPriceWithoutDiscount().getAttribute("innerHTML").trim().replaceAll("[^0-9.]", ""))).collect(Collectors.toList());
-        assertThat(itemPriceDouble, isSortedDescending(itemPriceDouble));
-
+        onSearchResultPage().items().extract(item -> parseDouble(item.itemPriceWithoutDiscount().getAttribute("innerHTML").trim().replaceAll("[^0-9.]", ""))).should(isSortedDescending());
         return this;
     }
 

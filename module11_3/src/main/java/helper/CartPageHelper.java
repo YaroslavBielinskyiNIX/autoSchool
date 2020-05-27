@@ -11,8 +11,8 @@ import static matchers.StringMatcher.hasText;
 
 public class CartPageHelper extends BaseHelper {
 
-    public CartPageHelper(WebDriver webDriver, Atlas atlas) {
-        super(webDriver, atlas);
+    public CartPageHelper(WebDriver webDriver) {
+        super(webDriver);
     }
 
     private CartPage onCartPage() {

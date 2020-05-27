@@ -7,8 +7,8 @@ import page.MainPage;
 
 public class MainPageHelper extends BaseHelper {
 
-    public MainPageHelper(WebDriver webDriver, Atlas atlas) {
-        super(webDriver, atlas);
+    public MainPageHelper(WebDriver webDriver) {
+        super(webDriver);
     }
 
     private MainPage onMainPage() {
@@ -26,7 +26,7 @@ public class MainPageHelper extends BaseHelper {
     public SearchResultPageHelper clickSubmitButton() {
         onMainPage().header().searchInput().submit();
 
-        return new SearchResultPageHelper(webDriver, atlas);
+        return new SearchResultPageHelper(webDriver);
     }
 
     @Step("Open MainPage")

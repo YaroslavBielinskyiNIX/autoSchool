@@ -5,10 +5,12 @@ import io.qameta.atlas.core.Atlas;
 import org.openqa.selenium.WebDriver;
 import page.ItemPage;
 
+import static matchers.DisplayedMatcher.isDisplayed;
+
 public class ItemPageHelper extends BaseHelper {
 
-    public ItemPageHelper(WebDriver webDriver, Atlas atlas) {
-        super(webDriver, atlas);
+    public ItemPageHelper(WebDriver webDriver) {
+        super(webDriver);
     }
 
     private ItemPage onItemPage() {
@@ -25,8 +27,8 @@ public class ItemPageHelper extends BaseHelper {
     @Step("Click 'Procced to checkout' Link")
     public CartPageHelper clickProceedToCheckout() {
         waitUntilLoad();
-        onItemPage().itemAddedPopUp().proceedToCheckout().click();
+        onItemPage().itemAddedPopUp().proceedToCheckout().should(isDisplayed()).click();
 
-        return new CartPageHelper(webDriver, atlas);
+        return new CartPageHelper(webDriver);
     }
 }
