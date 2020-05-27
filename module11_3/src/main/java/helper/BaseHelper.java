@@ -29,5 +29,4 @@ public abstract class BaseHelper {
     public void waitUntilLoad() {
         wait.until((ExpectedCondition<Boolean>) wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
     }
-
 }

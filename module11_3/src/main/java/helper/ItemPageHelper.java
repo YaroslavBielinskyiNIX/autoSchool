@@ -15,14 +15,14 @@ public class ItemPageHelper extends BaseHelper {
         return onPage(ItemPage.class);
     }
 
-    @Step("addToCartButton clicking")
+    @Step("Click 'Add to Cart' Link")
     public ItemPageHelper clickAddToCartButton() {
         onItemPage().addToCartButton().click();
 
         return this;
     }
 
-    @Step("proceedToCheckout clicking")
+    @Step("Click 'Procced to checkout' Link")
     public CartPageHelper clickProceedToCheckout() {
         waitUntilLoad();
         onItemPage().itemAddedPopUp().proceedToCheckout().click();

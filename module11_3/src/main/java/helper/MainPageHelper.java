@@ -15,21 +15,21 @@ public class MainPageHelper extends BaseHelper {
         return onPage(MainPage.class);
     }
 
-    @Step("searchInput entering")
+    @Step("Enter '{str}' in searchInput Filed")
     public MainPageHelper enterQuery(String str) {
         onMainPage().header().searchInput().sendKeys(str);
 
         return this;
     }
 
-    @Step("submitButton clicking")
+    @Step("Click 'Submit' Link")
     public SearchResultPageHelper clickSubmitButton() {
         onMainPage().header().searchInput().submit();
 
         return new SearchResultPageHelper(webDriver, atlas);
     }
 
-    @Step("MainPage opening")
+    @Step("Open MainPage")
     public MainPageHelper open() {
         onMainPage().open("http://automationpractice.com");
 

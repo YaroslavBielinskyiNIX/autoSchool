@@ -5,34 +5,66 @@ import io.qameta.atlas.core.Atlas;
 import org.openqa.selenium.WebDriver;
 import page.SearchResultPage;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.lang.Double.parseDouble;
+import static matchers.InDescendingOrdering.isSortedDescending;
+import static matchers.StringMatcher.hasText;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class SearchResultPageHelper extends BaseHelper {
 
     public SearchResultPageHelper(WebDriver webDriver, Atlas atlas) {
         super(webDriver, atlas);
     }
 
-    @Step("Counting items on ResultPage")
+    @Step("Items count on ResultPage")
     public int getItemsCount() {
-        return onSearchPage().items().size();
+        return onSearchResultPage().items().size();
     }
 
-    private SearchResultPage onSearchPage() {
+    private SearchResultPage onSearchResultPage() {
         return onPage(SearchResultPage.class);
     }
 
-    @Step("Opening ItemPage")
+    @Step("Open ItemPage")
     public ItemPageHelper openItemPage(int index) {
-        onSearchPage().items().get(index).moreButton();
+        onSearchResultPage().items().get(index).moreButton();
 
         return new ItemPageHelper(webDriver, atlas);
     }
 
-    @Step("DescendingSort for Items on SearchResultPage")
+    @Step("Applied DescendingSort for Items on SearchResultPage")
     public SearchResultPageHelper descendingItemsSort() {
         waitUntilLoad();
-        onSearchPage().dropDownMenu().selectByValue("Price: Highest first");
+        onSearchResultPage().dropDownMenu().selectByValue("Price: Highest first");
 
         return this;
     }
 
+    @Step("Should be DescendingSort for Items on SearchResultPage")
+    public SearchResultPageHelper verifyDescendingSort() {
+        List<Double> itemPriceDouble = onSearchResultPage().items().stream().map(item -> parseDouble(item.itemPriceWithoutDiscount().getAttribute("innerHTML").trim().replaceAll("[^0-9.]", ""))).collect(Collectors.toList());
+        assertThat(itemPriceDouble, isSortedDescending(itemPriceDouble));
+
+        return this;
+    }
+
+    @Step("SearchResultTitle should contain '{str}'")
+    public SearchResultPageHelper verifySearchResultTitleContainSearchQuery(String str) {
+        onSearchResultPage().searchResultTitle().should(hasText(str));
+
+        return this;
+    }
+
+    @Step("Get current Item price")
+    public String getCurrentItemPrice(int index) {
+        return onSearchResultPage().items().get(index).currentPrice().getText();
+    }
+
+    @Step("Get Item name")
+    public String getItemName(int index) {
+        return  onSearchResultPage().items().get(index).itemName().getText();
+    }
 }

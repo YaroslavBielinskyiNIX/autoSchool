@@ -1,4 +1,6 @@
+import helper.CartPageHelper;
 import helper.MainPageHelper;
+import helper.SearchResultPageHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
@@ -8,6 +10,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import page.SearchResultPage;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -29,10 +32,21 @@ public class SimpleTest {
         new MainPageHelper(webDriver, atlas).open()
                 .enterQuery("Dress")
                 .clickSubmitButton()
+                .verifySearchResultTitleContainSearchQuery("Dress")
                 .descendingItemsSort()
-                .openItemPage(0)
+                .verifyDescendingSort();
+
+        SearchResultPageHelper searchResultPageHelper = new SearchResultPageHelper(webDriver, atlas);
+        String currentItemPricePrice = searchResultPageHelper.getCurrentItemPrice(0);
+        String itemName = searchResultPageHelper.getItemName(0);
+
+        searchResultPageHelper.
+                openItemPage(0)
                 .clickAddToCartButton()
-                .clickProceedToCheckout();
+                .clickProceedToCheckout()
+                .verifyItemPriceSameAsOnSearchResultPage(currentItemPricePrice)
+                .verifyItemNameSameAsOnSearchResultPage(itemName);
+
     }
 
     @AfterMethod

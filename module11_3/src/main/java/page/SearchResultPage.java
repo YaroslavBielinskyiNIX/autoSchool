@@ -2,6 +2,7 @@ package page;
 
 import elements.DropDownMenu;
 import elements.Item;
+import io.qameta.atlas.webdriver.AtlasWebElement;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
@@ -15,5 +16,8 @@ public interface SearchResultPage extends WebPage, WithHeader, WithItemAddedPopU
 
     @FindBy("//select[@id='selectProductSort']")
     DropDownMenu dropDownMenu();
+
+    @FindBy("//span[contains(@class,'lighter')]")
+    AtlasWebElement searchResultTitle();
 
 }
