@@ -1,5 +1,10 @@
 package helper;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Product {
 
     private String itemName;
@@ -10,29 +15,5 @@ public class Product {
         this.itemCount = itemCount;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
-    }
-
-    public void setItemCount(int itemCount) {
-        this.itemCount = itemCount;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public void setItemPrice(Double itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public int getItemCount() {
-        return itemCount;
-    }
-
-    public double getItemPrice() {
-        return itemPrice;
     }
 }

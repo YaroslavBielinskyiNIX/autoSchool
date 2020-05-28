@@ -12,7 +12,7 @@ public class GetAttributeByValue extends TypeSafeMatcher<AtlasWebElement> {
         this.str = str;
     }
 
-    public static GetAttributeByValue hasByValue(final String str) {
+    public static GetAttributeByValue hasValue(final String str) {
         return new GetAttributeByValue(str);
     }
 

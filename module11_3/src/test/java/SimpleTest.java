@@ -30,7 +30,7 @@ public class SimpleTest extends BaseTest {
                 .clickContinueShopping()
                 .clickCart()
                 .verifyContainAllItems(products)
-                .removeItemFromCart(products, 0)
+                .removeItemFromCart(products, 1)
                 .verifyContainAllItems(products);
     }
 

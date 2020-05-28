@@ -20,7 +20,7 @@ public interface ItemInCart extends AtlasWebElement<ItemInCart> {
     @FindBy(".//td[@class='cart_description']//small/a")
     AtlasWebElement itemSizeColor();
 
-    @FindBy("//i[@class='icon-trash']")
+    @FindBy(".//i[@class='icon-trash']")
     AtlasWebElement itemTrashIcon();
 
 }

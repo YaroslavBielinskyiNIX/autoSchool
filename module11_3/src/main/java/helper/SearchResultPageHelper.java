@@ -1,14 +1,12 @@
 package helper;
 
 import io.qameta.allure.Step;
-import layout.WithHeader;
 import org.openqa.selenium.WebDriver;
 import page.SearchResultPage;
 
 import static java.lang.Double.parseDouble;
 import static matchers.InDescendingOrdering.isSortedDescending;
 import static matchers.StringMatcher.hasText;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SearchResultPageHelper extends BaseHelper {
 

@@ -7,12 +7,10 @@ import page.CartPage;
 import java.util.List;
 
 import static java.lang.String.valueOf;
-import static matchers.GetAttributeByValue.hasByValue;
+import static matchers.GetAttributeByValue.hasValue;
 import static matchers.InnerHtmlMatcher.hasInnerHtml;
 import static matchers.StringMatcher.hasText;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.stringContainsInOrder;
 
 public class CartPageHelper extends BaseHelper {
 
@@ -42,12 +40,12 @@ public class CartPageHelper extends BaseHelper {
     public CartPageHelper verifyContainAllItems(List<Product> products) {
         waitUntilLoad();
 
-        assertThat(onCartPage().itemsInCart(), hasSize(products.size()));
+        onCartPage().itemsInCart().should(hasSize(products.size()));
 
         for (int i = 0; i < products.size() - 1; i++) {
-            assertThat(onCartPage().itemsInCart().get(i).itemDescriptionName(), hasText(products.get(i).getItemName()));
-            assertThat(onCartPage().itemsInCart().get(i).itemPrice(), hasText(valueOf(products.get(i).getItemPrice())));
-            assertThat(onCartPage().itemsInCart().get(i).itemCount(), hasByValue(valueOf(products.get(i).getItemCount())));
+            onCartPage().itemsInCart().get(i).itemDescriptionName().should(hasText(products.get(i).getItemName()));
+            onCartPage().itemsInCart().get(i).itemPrice().should(hasText(valueOf(products.get(i).getItemPrice())));
+            onCartPage().itemsInCart().get(i).itemCount().should(hasValue(valueOf(products.get(i).getItemCount())));
         }
 
         return this;
@@ -56,8 +54,6 @@ public class CartPageHelper extends BaseHelper {
     @Step("Remove '{index}' item from CartPage")
     public CartPageHelper removeItemFromCart(List<Product> products, int index) {
         onCartPage().itemsInCart().get(index).itemTrashIcon().click();
-        onCartPage().itemsInCart().remove(index);
-        System.out.println(onCartPage().itemsInCart().size());
         products.remove(index);
 
         return this;
