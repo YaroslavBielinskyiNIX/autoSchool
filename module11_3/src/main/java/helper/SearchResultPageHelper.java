@@ -1,12 +1,9 @@
 package helper;
 
 import io.qameta.allure.Step;
-import io.qameta.atlas.core.Atlas;
+import layout.WithHeader;
 import org.openqa.selenium.WebDriver;
 import page.SearchResultPage;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.lang.Double.parseDouble;
 import static matchers.InDescendingOrdering.isSortedDescending;
@@ -30,7 +27,8 @@ public class SearchResultPageHelper extends BaseHelper {
 
     @Step("Open ItemPage")
     public ItemPageHelper openItemPage(int index) {
-        onSearchResultPage().items().get(index).moreButton();
+        waitUntilLoad();
+        onSearchResultPage().items().get(index).moreButton().click();
 
         return new ItemPageHelper(webDriver);
     }
@@ -38,7 +36,7 @@ public class SearchResultPageHelper extends BaseHelper {
     @Step("Applied DescendingSort for Items on SearchResultPage")
     public SearchResultPageHelper descendingItemsSort() {
         waitUntilLoad();
-        onSearchResultPage().dropDownMenu().selectByValue("Price: Highest first");
+        onSearchResultPage().sortDropDownMenu().selectByValue("Price: Highest first");
 
         return this;
     }
@@ -65,4 +63,5 @@ public class SearchResultPageHelper extends BaseHelper {
     public String getItemName(int index) {
         return  onSearchResultPage().items().get(index).itemName().getText();
     }
+
 }

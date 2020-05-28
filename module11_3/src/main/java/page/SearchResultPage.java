@@ -15,7 +15,7 @@ public interface SearchResultPage extends WebPage, WithHeader, WithItemAddedPopU
     ElementsCollection<Item> items();
 
     @FindBy("//select[@id='selectProductSort']")
-    DropDownMenu dropDownMenu();
+    DropDownMenu sortDropDownMenu();
 
     @FindBy("//span[contains(@class,'lighter')]")
     AtlasWebElement searchResultTitle();

@@ -8,6 +8,6 @@ import layout.WithHeader;
 
 public interface CartPage extends WebPage, WithHeader {
 
-    @FindBy("//table[@id='cart_summary']//tbody")
+    @FindBy("//tbody/tr[contains(@class,'cart_item')]")
     ElementsCollection<ItemInCart> itemsInCart();
 }

@@ -20,11 +20,11 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDownAfterMethod() {
-        webDriver.close();
+        //webDriver.close();
     }
 
     @AfterTest
     public void tearDownAfterTest() {
-        webDriver.quit();
+        //webDriver.quit();
     }
 }

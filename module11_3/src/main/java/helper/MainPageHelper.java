@@ -17,6 +17,7 @@ public class MainPageHelper extends BaseHelper {
 
     @Step("Enter '{str}' in searchInput Filed")
     public MainPageHelper enterQuery(String str) {
+        onMainPage().header().searchInput().clear();
         onMainPage().header().searchInput().sendKeys(str);
 
         return this;

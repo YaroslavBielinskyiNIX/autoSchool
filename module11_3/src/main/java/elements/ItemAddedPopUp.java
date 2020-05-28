@@ -10,4 +10,13 @@ public interface ItemAddedPopUp extends AtlasWebElement {
 
     @FindBy(".//span[contains(text(),'Proceed to checkout')]")
     AtlasWebElement proceedToCheckout();
+
+    @FindBy("//span[@id='layer_cart_product_title']")
+    AtlasWebElement itemName();
+
+    @FindBy("//span[@id='layer_cart_product_attributes']")
+    AtlasWebElement itemSizeColor();
+
+    @FindBy("//span[@id='layer_cart_product_price']")
+    AtlasWebElement totalPrice();
 }
