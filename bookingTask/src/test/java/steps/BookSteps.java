@@ -1,6 +1,5 @@
 package steps;
 
-import com.google.gson.GsonBuilder;
 import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.mapper.ObjectMapperType;
@@ -11,7 +10,6 @@ import static io.restassured.RestAssured.given;
 
 public class BookSteps extends AuthorizedUserSteps {
 
-    private final GsonBuilder builder;
     private final BookRequestInfo bookRequestInfo;
     private BookResponseInfo bookResponseInfo;
 
@@ -19,17 +17,11 @@ public class BookSteps extends AuthorizedUserSteps {
         super(token);
 
         bookRequestInfo = new BookRequestInfo();
-        builder = new GsonBuilder();
-        gson = builder.create();
     }
 
     @Step("Book room")
     public BookSteps bookRoom() {
-        response = given()
-                .filter(new AllureRestAssured())
-                .baseUri(BOOKING_SHARP_NIXDEV_CO)
-                .contentType("application/vnd.api+json; charset=utf-8")
-                .header("Authorization", bearerToken)
+        response = given().spec(requestBookSpec)
                 .body(gson.toJson(bookRequestInfo))
                 .post("/api/api/events")
                 .then()
@@ -45,9 +37,7 @@ public class BookSteps extends AuthorizedUserSteps {
     public BookSteps deleteBook() {
         bookResponseInfo = response.as(BookResponseInfo.class, ObjectMapperType.GSON);
 
-        given().filter(new AllureRestAssured())
-                .baseUri(BOOKING_SHARP_NIXDEV_CO)
-                .header("Authorization", bearerToken)
+        given().filter(new AllureRestAssured()).spec(requestBookSpec)
                 .basePath("/api/api/events/")
                 .delete(bookResponseInfo.getData().getAttributes().getId())
                 .then()

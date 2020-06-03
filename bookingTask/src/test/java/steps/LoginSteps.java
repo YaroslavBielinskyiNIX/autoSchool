@@ -18,8 +18,7 @@ public class LoginSteps {
 
     @Step("Open login page")
     public LoginSteps openLoginPage() {
-        response = given()
-                .filter(new AllureRestAssured())
+        response = given().filter(new AllureRestAssured())
                 .baseUri(KEYCLOAK_NIXSOLUTIONS)
                 .basePath("/auth/realms/nix/protocol/openid-connect/auth")
                 .queryParam("client_id", ".net-test")
