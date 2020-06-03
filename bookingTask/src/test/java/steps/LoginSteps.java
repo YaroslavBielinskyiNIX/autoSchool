@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -11,24 +12,21 @@ import java.util.regex.Pattern;
 
 import static io.restassured.RestAssured.given;
 
-public class LoginSteps extends BaseSteps {
-
-    private BaseSteps baseSteps;
-
-    public LoginSteps(BaseSteps baseSteps) {
-        this.baseSteps = baseSteps;
-    }
+public class LoginSteps {
+    private Response response;
+    private final String KEYCLOAK_NIXSOLUTIONS = "https://keycloak.nixsolutions.com";
 
     @Step("Open login page")
     public LoginSteps openLoginPage() {
-        baseSteps.response = given()
+        response = given()
                 .filter(new AllureRestAssured())
+                .baseUri(KEYCLOAK_NIXSOLUTIONS)
                 .basePath("/auth/realms/nix/protocol/openid-connect/auth")
                 .queryParam("client_id", ".net-test")
                 .queryParam("response_type", "code")
                 .get();
 
-        baseSteps.response.then()
+        response.then()
                 .assertThat()
                 .statusCode(200);
 
@@ -37,16 +35,18 @@ public class LoginSteps extends BaseSteps {
 
     @Step("Login as user")
     public LoginSteps loginAsUser() {
-        String loginUrl = baseSteps.response.htmlPath().getString("**.find {it.@id =='kc-form-login'}.@action");
-        Map<String, String> cookie = baseSteps.response.getCookies();
+        String loginUrl = response.htmlPath().getString("**.find {it.@id =='kc-form-login'}.@action");
+        Map<String, String> cookie = response.getCookies();
 
-        baseSteps.response = given()
-                .filter(new AllureRestAssured()).contentType(ContentType.URLENC)
+        response = given()
+                .filter(new AllureRestAssured())
+                .contentType(ContentType.URLENC)
+                .baseUri(KEYCLOAK_NIXSOLUTIONS)
                 .body("username=keycloakuser&password=AqxFgK5aFPT3nT&credentialId=")
                 .cookies(cookie)
                 .post(loginUrl);
 
-        baseSteps.response.then()
+        response.then()
                 .assertThat()
                 .statusCode(302);
 
@@ -55,27 +55,27 @@ public class LoginSteps extends BaseSteps {
 
     @Step("Init Bearer Token")
     public BookSteps initBearerToken() {
-        Matcher matcher = Pattern.compile(".{110}$").matcher(baseSteps.response.getHeader("Location"));
+        Matcher matcher = Pattern.compile(".{110}$").matcher(response.getHeader("Location"));
 
         String code = null;
         if (matcher.find( )) {
             code = matcher.group(0);
         }
 
-        baseSteps.response = RestAssured.given()
+        response = RestAssured.given()
                 .filter(new AllureRestAssured())
                 .contentType(ContentType.URLENC)
+                .baseUri(KEYCLOAK_NIXSOLUTIONS)
                 .body("grant_type=authorization_code&client_id=.net-test&client_secret=1498571f-70dc-4eb4-ad7e-490645862e94&code=" + code)
-                .basePath("/auth/realms/nix/protocol/openid-connect/token")
-                .post();
+                .post("/auth/realms/nix/protocol/openid-connect/token");
 
-        baseSteps.response.then()
+        response.then()
                 .assertThat()
                 .statusCode(200);
 
-        baseSteps.bearerToken = "Bearer " +  baseSteps.response.jsonPath()
+        String bearerToken = "Bearer " +  response.jsonPath()
                 .getString("access_token");
 
-        return new BookSteps(baseSteps);
+        return new BookSteps(bearerToken);
     }
 }

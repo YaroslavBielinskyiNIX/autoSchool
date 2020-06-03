@@ -1,48 +1,41 @@
 package steps;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.RestAssured;
-import org.json.JSONObject;
+import io.restassured.mapper.ObjectMapperType;
 
 import static io.restassured.RestAssured.given;
 
-public class BookSteps extends BaseSteps {
+public class BookSteps extends AuthorizedUserSteps {
 
-    private BaseSteps baseSteps;
+    private final GsonBuilder builder;
+    private Gson gson;
+    private final String bookInfoString;
+    BookRequestInfo bookRequestInfo;
+    BookResponseInfo bookResponseInfo;
 
-    public BookSteps(BaseSteps baseSteps) {
-        this.baseSteps = baseSteps;
+    public BookSteps(String token) {
+        super(token);
+
+        builder = new GsonBuilder();
+        gson = builder.create();
+        bookInfoString = "{\"data\":{\"relationships\":{\"room\":{\"data\":{\"id\":\"9\",\"type\":\"rooms\"}}},\"attributes\":{\"start-time\":\"2020-06-16T09:05:00\",\"end-time\":\"2020-06-16T10:05:00\",\"description\":\"\",\"id\":\"\",\"title\":\"\",\"recurring-event-id\":\"\"},\"id\":\"\",\"type\":\"events\"}}\n";
+        bookRequestInfo = gson.fromJson(bookInfoString, BookRequestInfo.class);
     }
 
     @Step("Book room")
     public BookSteps bookRoom() {
-        RestAssured.baseURI = "https://booking.sharp.nixdev.co";
-
-        JSONObject jsonObj = new JSONObject().put("data", new JSONObject()
-                            .put("attributes", new JSONObject()
-                                .put("description", "")
-                                .put("end-time", "2020-06-14T10:05:00")
-                                .put("id", "")
-                                .put("recurring-event-id", "")
-                                .put("start-time", "2020-06-14T09:05:00")
-                                .put("title", ""))
-                            .put("id", "")
-                            .put("relationships", new JSONObject()
-                                    .put("room", new JSONObject()
-                                        .put("data", new JSONObject()
-                                            .put("id", "9")
-                                            .put("type", "rooms"))))
-                            .put("type", "events"));
-
-        baseSteps.response = given()
+        response = given()
                 .filter(new AllureRestAssured())
+                .baseUri(BOOKING_SHARP_NIXDEV_CO)
                 .contentType("application/vnd.api+json; charset=utf-8")
-                .header("Authorization", baseSteps.bearerToken)
-                .body(jsonObj.toString())
+                .header("Authorization", bearerToken)
+                .body(gson.toJson(bookRequestInfo))
                 .post("/api/api/events");
 
-        baseSteps.response.then()
+        response.then()
                 .assertThat()
                 .statusCode(200);
 
@@ -51,13 +44,14 @@ public class BookSteps extends BaseSteps {
 
     @Step("Delete book")
     public BookSteps deleteBook() {
-        JSONObject object = new JSONObject(baseSteps.response.asString());
+        bookResponseInfo = response.as(BookResponseInfo.class, ObjectMapperType.GSON);
 
         given()
                 .filter(new AllureRestAssured())
-                .header("Authorization", baseSteps.bearerToken)
+                .baseUri(BOOKING_SHARP_NIXDEV_CO)
+                .header("Authorization", bearerToken)
                 .basePath("/api/api/events/")
-                .delete(object.getJSONObject("data").getJSONObject("attributes").get("id").toString())
+                .delete(bookResponseInfo.getData().getAttributes().getId())
                 .then()
                 .assertThat()
                 .statusCode(200);
