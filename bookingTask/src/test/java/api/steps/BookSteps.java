@@ -8,11 +8,11 @@ import io.restassured.mapper.ObjectMapperType;
 
 import java.util.List;
 
-import static api.matchers.StartDateMatcher.containsBookWithStartDate;
 import static io.restassured.RestAssured.given;
 import static java.util.Objects.requireNonNull;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class BookSteps extends AuthorizedUserSteps {
 
@@ -41,7 +41,7 @@ public class BookSteps extends AuthorizedUserSteps {
                 .get(API_API_EVENTS + "/my")
                 .as(BookIdentity.class, ObjectMapperType.GSON).getData();
 
-        assertThat(booksStartTime, containsBookWithStartDate(bookRequestInfo.getData().getAttributes().getStartTime()));
+        assertThat(booksStartTime.stream().filter(book -> book.getAttributes().getStartTime().equals(bookRequestInfo.getData().getAttributes().getStartTime())).count(), is(1L));
 
         return this;
     }
@@ -82,7 +82,7 @@ public class BookSteps extends AuthorizedUserSteps {
                 .as(BookIdentity.class, ObjectMapperType.GSON)
                 .getData();
 
-        assertThat(booksStartTime, not(containsBookWithStartDate(bookRequestInfo.getData().getAttributes().getStartTime())));
+        assertThat(booksStartTime.stream().filter(book -> book.getAttributes().getStartTime().equals(bookRequestInfo.getData().getAttributes().getStartTime())).count(), is(0L));
 
         return this;
     }
