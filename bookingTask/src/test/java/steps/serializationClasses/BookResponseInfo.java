@@ -3,10 +3,12 @@ package steps.serializationClasses;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class BookResponseInfo {
 
-    private Data data;
+    private List<Data> data;
 
     @Getter
     public class Data {

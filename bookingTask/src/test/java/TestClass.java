@@ -1,5 +1,6 @@
 import org.testng.annotations.Test;
 import steps.LoginSteps;
+import steps.serializationClasses.BookRequestInfo;
 
 public class TestClass {
 
@@ -11,9 +12,11 @@ public class TestClass {
 
     @Test
     public void bookRoomTest() {
+        BookRequestInfo bookRequestInfo = new BookRequestInfo();
+
         new LoginSteps().openLoginPage()
                 .loginAsUser()
-                .bookRoom()
-                .deleteBook();
+                .bookRoom(bookRequestInfo)
+                .deleteBook(bookRequestInfo);
     }
 }
