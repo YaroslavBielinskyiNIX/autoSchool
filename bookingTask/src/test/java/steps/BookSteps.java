@@ -8,6 +8,7 @@ import steps.serializationClasses.BookResponseInfo;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertFalse;
 
 public class BookSteps extends AuthorizedUserSteps {
 
@@ -17,7 +18,7 @@ public class BookSteps extends AuthorizedUserSteps {
 
     @Step("Book room")
     public BookSteps bookRoom(BookRequestInfo bookRequestInfo) {
-        response = given().spec(requestBookSpec)
+        given().spec(requestBookSpec)
                 .body(gson.toJson(bookRequestInfo))
                 .post("/api/api/events")
                 .then()
@@ -52,12 +53,16 @@ public class BookSteps extends AuthorizedUserSteps {
             if (data.getAttributes().getStartTime().equals(bookRequestInfo.getData().getAttributes().getStartTime())) bookId = data.getAttributes().getId();
         }
 
-        given().spec(requestBookSpec)
+        response = given().spec(requestBookSpec)
                 .basePath("/api/api/events/")
                 .delete(bookId)
                 .then()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .extract()
+                .response();
+
+        assertFalse(response.then().assertThat().toString().contains(bookRequestInfo.getData().getAttributes().getStartTime()));
 
         return this;
     }
