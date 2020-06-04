@@ -53,9 +53,17 @@ public class BookSteps extends AuthorizedUserSteps {
             if (data.getAttributes().getStartTime().equals(bookRequestInfo.getData().getAttributes().getStartTime())) bookId = data.getAttributes().getId();
         }
 
-        response = given().spec(requestBookSpec)
+        given().spec(requestBookSpec)
                 .basePath("/api/api/events/")
                 .delete(bookId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        response = given().spec(requestBookSpec)
+                .get("/api/api/events/my")
                 .then()
                 .assertThat()
                 .statusCode(200)
