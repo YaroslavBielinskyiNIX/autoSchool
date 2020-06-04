@@ -9,6 +9,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class BookSteps extends AuthorizedUserSteps {
 
@@ -27,15 +28,15 @@ public class BookSteps extends AuthorizedUserSteps {
                 .extract()
                 .response();
 
-        given().spec(requestBookSpec)
+        response = given().spec(requestBookSpec)
                 .get("/api/api/events/my")
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .and()
-                .assertThat()
-                .toString()
-                .contains(bookRequestInfo.getData().getAttributes().getStartTime());
+                .extract()
+                .response();
+
+        assertTrue(response.asString().contains(bookRequestInfo.getData().getAttributes().getStartTime()));
 
         return this;
     }
