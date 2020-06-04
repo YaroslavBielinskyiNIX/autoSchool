@@ -1,4 +1,4 @@
-package steps.serializationClasses;
+package api.serializationClasses;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package steps;
+package api.steps;
 
 import com.google.gson.Gson;
 import io.qameta.allure.restassured.AllureRestAssured;
@@ -12,7 +12,10 @@ public class AuthorizedUserSteps {
     protected Response response;
     protected Gson gson;
     protected RequestSpecification requestBookSpec;
+
     protected final String BOOKING_SHARP_NIXDEV_CO = "https://booking.sharp.nixdev.co";
+
+    protected final String API_API_EVENTS = "/api/api/events";
 
     public AuthorizedUserSteps(String bearerToken) {
         this.bearerToken = bearerToken;

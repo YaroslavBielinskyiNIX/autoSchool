@@ -1,6 +1,6 @@
 import org.testng.annotations.Test;
-import steps.LoginSteps;
-import steps.serializationClasses.BookRequestInfo;
+import api.steps.LoginSteps;
+import api.serializationClasses.BookRequestInfo;
 
 public class TestClass {
 
