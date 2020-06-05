@@ -1,10 +1,11 @@
-package api.serializationClasses;
+package api.serializationClasses.oneTime;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public class BookRequestInfo {
+public class OneTimeBookRequestInfo {
 
     private Data data = new Data();
 
@@ -17,6 +18,7 @@ public class BookRequestInfo {
         private String type = "events";
 
         @Getter
+        @Setter
         public class Attributes {
 
             @SerializedName("end-time")

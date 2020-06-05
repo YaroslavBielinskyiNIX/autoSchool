@@ -1,4 +1,4 @@
-package api.serializationClasses;
+package api.serializationClasses.oneTime;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class BookResponseInfo {
+public class OneTimeBookResponseInfo {
 
     private List<Data> data;
 

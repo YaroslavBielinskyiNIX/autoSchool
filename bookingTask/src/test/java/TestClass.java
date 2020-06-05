@@ -1,6 +1,7 @@
-import org.testng.annotations.Test;
+import api.serializationClasses.oneTime.OneTimeBookRequestInfo;
+import api.serializationClasses.recurring.request.RecurringDailyBookRequestInfo;
 import api.steps.LoginSteps;
-import api.serializationClasses.BookRequestInfo;
+import org.testng.annotations.Test;
 
 public class TestClass {
 
@@ -12,11 +13,39 @@ public class TestClass {
 
     @Test
     public void bookRoomTest() {
-        BookRequestInfo bookRequestInfo = new BookRequestInfo();
+        OneTimeBookRequestInfo oneTimeBookRequestInfo = new OneTimeBookRequestInfo();
 
         new LoginSteps().openLoginPage()
                 .loginAsUser()
-                .bookRoom(bookRequestInfo)
-                .deleteBook(bookRequestInfo);
+                .bookOneTimeRoom(oneTimeBookRequestInfo)
+                .deleteOneTimeBook(oneTimeBookRequestInfo);
+    }
+
+    @Test
+    public void deleteRecurringNearestBookTest() {
+        RecurringDailyBookRequestInfo recurringDailyBookRequestInfo = new RecurringDailyBookRequestInfo();
+
+        new LoginSteps().openLoginPage()
+                .loginAsUser()
+                .BookRoomRecurring(recurringDailyBookRequestInfo)
+                .verifyRecurringDailyBookCreated(recurringDailyBookRequestInfo)
+                .deleteNearestRecurringDailyBook(recurringDailyBookRequestInfo);
+    }
+
+    @Test
+    public void changeOneTimeBookTitle() {
+        OneTimeBookRequestInfo oneTimeBookRequestInfo = new OneTimeBookRequestInfo();
+
+        new LoginSteps().openLoginPage()
+                .loginAsUser()
+                .bookOneTimeRoom(oneTimeBookRequestInfo)
+                .verifyOneTimeBookCreated(oneTimeBookRequestInfo)
+                .changeTitle(oneTimeBookRequestInfo, "NewTestTitle")
+                .deleteOneTimeBook(oneTimeBookRequestInfo);
+    }
+
+    @Test
+    public void book() {
+
     }
 }

@@ -6,22 +6,25 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class BookIdentity {
+public class RecurringBookIdentity {
 
-    private List<BookIdentity.Data> data;
+    private List<RecurringBookIdentity.Data> data;
 
     @Getter
     public class Data {
 
-        private BookIdentity.Data.Attributes attributes;
+        private RecurringBookIdentity.Data.Attributes attributes;
+        private String id;
 
         @Getter
         public class Attributes {
-
-            @Getter
             @SerializedName("start-time")
             private String startTime;
 
+            @SerializedName("start-date")
+            private String dateStart;
+
+            private String title;
         }
     }
 }
