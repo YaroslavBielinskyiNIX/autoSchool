@@ -1,8 +1,10 @@
 package api.serializationClasses.recurring.request;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class RecurringDailyBookRequestInfo {
 
         private Daily daily = new Daily();
@@ -18,6 +20,6 @@ public class RecurringDailyBookRequestInfo {
         @Getter
         public class Daily {
 
-            private boolean everyDay = true;
+                private boolean everyDay = true;
         }
 }

@@ -1,4 +1,4 @@
-package api.serializationClasses;
+package api.serializationClasses.oneTime;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
@@ -6,24 +6,23 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class RecurringBookIdentity {
+public class OneTimeBookIdentity {
 
-    private List<RecurringBookIdentity.Data> data;
+    private List<OneTimeBookIdentity.Data> data;
 
     @Getter
     public class Data {
 
-        private RecurringBookIdentity.Data.Attributes attributes;
-        private String id;
+        private OneTimeBookIdentity.Data.Attributes attributes;
 
         @Getter
         public class Attributes {
+
+            @Getter
             @SerializedName("start-time")
             private String startTime;
 
-            @SerializedName("start-date")
-            private String dateStart;
-
+            @Getter
             private String title;
         }
     }

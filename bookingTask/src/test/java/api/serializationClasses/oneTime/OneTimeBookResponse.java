@@ -16,7 +16,7 @@ public class OneTimeBookResponse {
 
         private OneTimeBookResponse.Data.Attributes attributes = new OneTimeBookResponse.Data.Attributes();
         private OneTimeBookResponse.Data.Relationships relationships = new OneTimeBookResponse.Data.Relationships();
-        private String id = "";
+        private int id;
         private String type = "events";
 
         @Getter
@@ -27,14 +27,14 @@ public class OneTimeBookResponse {
             private String endTime = "2020-06-16T10:05:00";
 
             @SerializedName("recurring-event-id")
-            private String recurringEventId = "";
+            private String recurringEventId = null;
 
             @SerializedName("start-time")
             private String startTime = "2020-06-16T09:05:00";
 
             private String title = "";
             private String description = "";
-            private String id = "";
+            private int id;
         }
 
         @Getter
