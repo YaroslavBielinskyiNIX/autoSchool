@@ -7,5 +7,4 @@ public interface WithItemInfo {
 
     @FindBy("//div[contains(@class,'primary_block')]")
     ItemInfo itemInfo();
-
 }

@@ -14,7 +14,6 @@ public class InDescendingOrdering extends TypeSafeMatcher<List<Double>> {
     private List<Double> list;
 
     public InDescendingOrdering() {
-
     }
 
     @Override
@@ -41,5 +40,4 @@ public class InDescendingOrdering extends TypeSafeMatcher<List<Double>> {
     public static InDescendingOrdering isSortedDescending() {
         return new InDescendingOrdering();
     }
-
 }

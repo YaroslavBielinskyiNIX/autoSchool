@@ -19,5 +19,4 @@ public interface SearchResultPage extends WebPage, WithHeader, WithItemAddedPopU
 
     @FindBy("//span[contains(@class,'lighter')]")
     AtlasWebElement searchResultTitle();
-
 }

@@ -7,5 +7,4 @@ public interface WithHeader {
 
     @FindBy("//header")
     Header header();
-
 }

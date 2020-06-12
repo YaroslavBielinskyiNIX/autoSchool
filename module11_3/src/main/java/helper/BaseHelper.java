@@ -19,7 +19,6 @@ public abstract class BaseHelper {
         this.webDriver = webDriver;
         this.atlas = new Atlas(new WebDriverConfiguration(webDriver));
         this.wait = new WebDriverWait(webDriver, 10);
-
     }
 
     protected <T extends WebPage> T onPage(Class<T> page) {

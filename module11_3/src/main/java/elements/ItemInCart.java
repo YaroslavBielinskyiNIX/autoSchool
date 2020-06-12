@@ -22,5 +22,4 @@ public interface ItemInCart extends AtlasWebElement<ItemInCart> {
 
     @FindBy(".//i[@class='icon-trash']")
     AtlasWebElement itemTrashIcon();
-
 }

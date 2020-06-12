@@ -1,7 +1,6 @@
 package helper;
 
 import io.qameta.allure.Step;
-import io.qameta.atlas.core.Atlas;
 import org.openqa.selenium.WebDriver;
 import page.MainPage;
 
@@ -36,5 +35,4 @@ public class MainPageHelper extends BaseHelper {
 
         return this;
     }
-
 }

@@ -15,5 +15,4 @@ public interface ItemPage extends WebPage, WithHeader, WithItemAddedPopUp, WithI
 
     @FindBy("//select[@id='group_1']")
     DropDownMenu sizeDropDownMenu();
-
 }

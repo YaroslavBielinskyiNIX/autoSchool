@@ -58,5 +58,4 @@ public class CartPageHelper extends BaseHelper {
 
         return this;
     }
-
 }

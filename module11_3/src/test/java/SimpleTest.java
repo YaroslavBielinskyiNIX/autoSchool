@@ -1,4 +1,6 @@
-import helper.*;
+import helper.MainPageHelper;
+import helper.Product;
+import helper.SearchResultPageHelper;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.List;
 public class SimpleTest extends BaseTest {
 
     @Test
-    public void test2() throws InterruptedException {
+    public void test2() {
         List<Product> products = new ArrayList<>();
 
         new MainPageHelper(webDriver).open()
@@ -46,13 +48,10 @@ public class SimpleTest extends BaseTest {
         String currentItemPricePrice = searchResultPageHelper.getCurrentItemPrice(0);
         String itemName = searchResultPageHelper.getItemName(0);
 
-        searchResultPageHelper.
-                openItemPage(0)
+        searchResultPageHelper.openItemPage(0)
                 .clickAddToCartButton()
                 .clickProceedToCheckout()
                 .verifyItemPriceSameAsOnSearchResultPage(currentItemPricePrice)
                 .verifyItemNameSameAsOnSearchResultPage(itemName);
-
     }
-
 }

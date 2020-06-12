@@ -1,20 +1,16 @@
 package helper;
 
-import elements.Item;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import page.ItemPage;
 
 import java.util.List;
 
-import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
-import static javax.swing.text.html.CSS.getAttribute;
 import static matchers.DisplayedMatcher.isDisplayed;
 import static matchers.StringMatcher.hasText;
-import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 
@@ -123,5 +119,4 @@ public class ItemPageHelper extends BaseHelper {
 
         return this;
     }
-
 }

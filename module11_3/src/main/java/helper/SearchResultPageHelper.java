@@ -61,5 +61,4 @@ public class SearchResultPageHelper extends BaseHelper {
     public String getItemName(int index) {
         return  onSearchResultPage().items().get(index).itemName().getText();
     }
-
 }
